@@ -1,0 +1,67 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing project CRUD operations. Test scenarios for Create, Read, Update, Delete.
+
+Pre Condition	Login with valid credentials and navigate to the project page.
+Post Condition	Close All Browsers
+Tags	Project, CRUD
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your project creation credential before uploading Assignments
+# TODO: Define project creation field variables
+
+ProjectPageUrl = https://gitlab.com/projects
+BlankProjectName = BlankProject
+TemplateProjectName = TemplateProject
+UpdatedProjectName = UpdatedProject
+InvalidProjectName = TemplateProject  # Same as template project for negative test
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+# Positive Tests
+
+Create Blank Project
+    Navigate To Project Page  ProjectPageUrl
+    Click Create Project Button
+    Input Project Name  BlankProjectName
+    Submit Project Form
+    Verify Page Should Contain Project 'BlankProject' was successfully created.
+
+Create Template Project
+    Navigate To Project Page  ProjectPageUrl
+    Click Create Project Button
+    Input Project Name  TemplateProjectName
+    Choose Project Template
+    Submit Project Form
+    Verify Page Should Contain Project 'TemplateProject' was successfully created.
+
+Update Template Project Name
+    Navigate To Project Page  ProjectPageUrl
+    Find Project TemplateProject
+    Click Edit Project Button
+    Update Project Name  UpdatedProjectName
+    Submit Project Form
+    Verify Page Should Contain Project 'UpdatedProject' was successfully updated.
+
+Delete Template Project
+    Navigate To Project Page  ProjectPageUrl
+    Find Project UpdatedProject
+    Click Delete Project Button
+    Confirm Deletion
+    Verify Page Should Contain Project 'UpdatedProject' was successfully deleted.
+
+# Negative Tests
+
+Create Project with Same Name
+    Navigate To Project Page  ProjectPageUrl
+    Click Create Project Button
+    Input Project Name  InvalidProjectName
+    Submit Project Form
+    Verify Page Should Contain Project 'TemplateProject' already exists. Choose a different name.

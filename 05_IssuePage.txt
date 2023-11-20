@@ -1,0 +1,56 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing issue CRUD operations. Test scenarios for Create, Read, Update, Delete.
+
+Pre Condition	Login with valid credentials, navigate to a project, and ensure a project has been created.
+Post Condition	Close All Browsers
+Tags	Issue, Delete Issue
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your issue creation credential before uploading Assignments
+# TODO: Define issue creation field variables
+
+IssuePageUrl = https://gitlab.com/project/issues
+Issue1Name = Issue1
+UpdatedIssue1Name = UpdatedIssue1
+Issue2Name = Issue2
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+# Positive Tests
+
+Create Issue
+    Navigate To Issue Page  IssuePageUrl
+    Click Create Issue Button
+    Input Issue Name  Issue1Name
+    Submit Issue Form
+    Verify Page Should Contain Issue 'Issue1' was successfully created.
+
+Update Issue Name
+    Navigate To Issue Page  IssuePageUrl
+    Find Issue Issue1
+    Click Edit Issue Button
+    Update Issue Name  UpdatedIssue1Name
+    Submit Issue Form
+    Verify Page Should Contain Issue 'UpdatedIssue1' was successfully updated.
+
+Create Second Issue with Previous Updated Name
+    Navigate To Issue Page  IssuePageUrl
+    Click Create Issue Button
+    Input Issue Name  UpdatedIssue1Name
+    Submit Issue Form
+    Verify Page Should Contain Issue 'UpdatedIssue1' was successfully created.
+
+Delete First Issue
+    Navigate To Issue Page  IssuePageUrl
+    Find Issue UpdatedIssue1
+    Click Delete Issue Button
+    Confirm Deletion
+    Verify Page Should Contain Issue 'UpdatedIssue1' was successfully deleted.

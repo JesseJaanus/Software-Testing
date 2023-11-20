@@ -1,0 +1,70 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the user registration functionality. Test scenario with verification, valid, and invalid credentials.
+
+Pre Condition	Open Browser
+Post Condition	Close All Browsers
+Tags	Registration, New user
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your registration credential before uploading Assignments
+# TODO: Define registration field variables
+
+LoginUrl = https://gitlab.com/users/sign_up
+Valid_Username = ValidUser
+Valid_Password = ValidPassword
+Invalid_Username = InvalidUser
+Invalid_Password =  InvalidPassword
+Invalid_Email = invalidemail.com
+Empty = 
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+# Positive Test
+
+Register User with Valid Username and Password
+    Navigate To Registration Page  LoginUrl
+    Input Username  ValidUser
+    Input Password  ValidPassword
+    Submit Registration Form
+    Verify Page Should Contain Welcome message
+
+# Negative Tests
+
+Register User with Same Username
+    Navigate To Registration Page  LoginUrl
+    Input Username  ValidUser
+    Input Password  ValidPassword
+    Submit Registration Form
+    Verify Page Should Contain User with this username already exists.
+
+Register User with Empty Password
+    Navigate To Registration Page  LoginUrl
+    Input Username  ValidUser
+    Input Password  Empty
+    Submit Registration Form
+    Verify Page Should Contain This field is required.
+
+Register User with Invalid Email
+    Navigate To Registration Page  LoginUrl
+    Input Username  ValidUser
+    Input Password  ValidPassword
+    Input Email     invalidemail.com
+    Submit Registration Form
+    Verify Page Should Contain Please enter a valid email address.
+
+Register User Without Recaptcha
+    Navigate To Registration Page  LoginUrl
+    Input Username  ValidUser
+    Input Password  ValidPassword
+    Skip Recaptcha
+    Submit Registration Form
+    Verify Page Should Contain Please verify that you are not a robot.
+
